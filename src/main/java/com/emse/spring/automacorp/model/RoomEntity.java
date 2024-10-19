@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "ROOM")  // Defines the table name as "ROOM"
+@Table(name = "sp_room")  // Defines the table name as "ROOM"
 public class RoomEntity {
 
     @Id

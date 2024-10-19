@@ -3,7 +3,7 @@ package com.emse.spring.automacorp.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "SP_WINDOW")  // Defines the table name as "SP_WINDOW"
+@Table(name = "sp_window")  // Defines the table name as "SP_WINDOW"
 public class WindowEntity {
 
     @Id

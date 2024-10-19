@@ -3,7 +3,7 @@ package com.emse.spring.automacorp.model;
 import jakarta.persistence.*;
 
 @Entity // .
-@Table(name = "SP_SENSOR") // .
+@Table(name = "SP_SENSOR")
 public class SensorEntity {
     @Id // .
     @GeneratedValue

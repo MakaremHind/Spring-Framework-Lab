@@ -11,7 +11,7 @@ public class WindowDaoCustomImpl implements WindowDaoCustom {
 
     @Override
     public List<WindowEntity> findRoomsWithOpenWindows(Long id) {
-        String jpql = "select w from WindowEntity w inner join w.windowStatus s " +
+        String jpql = "select w from WindowEntity w inner join w.sensorStatus s " +
                 "where w.room.id = :id and s.value > 0.0 order by w.name";
         return em.createQuery(jpql, WindowEntity.class)
                 .setParameter("id", id)

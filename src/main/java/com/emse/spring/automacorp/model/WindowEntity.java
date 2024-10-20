@@ -15,12 +15,24 @@ public class WindowEntity {
     private String name;
 
     @ManyToOne  // The window status is related to the sensor entity
-    @JoinColumn(name = "window_status_id", nullable = false)
-    private SensorEntity windowStatus;
+    @JoinColumn(name = "senosr_status_id", nullable = false)
+    private SensorEntity sensorStatus;
+
+
 
     @ManyToOne  // Many windows belong to one room (bidirectional association)
     @JoinColumn(name = "room_id", nullable = false)  // The foreign key column to the room
     private RoomEntity room;
+
+    WindowStatus windowStatus = WindowStatus.CLOSED;
+
+    public WindowStatus getWindowStatus() {
+        return windowStatus;
+    }
+
+    public void setWindowStatus(WindowStatus windowStatus) {
+        this.windowStatus = windowStatus;
+    }
 
     // Default constructor
     public WindowEntity() {
@@ -29,7 +41,7 @@ public class WindowEntity {
     // Constructor with room and window sensor status
     public WindowEntity(String name, SensorEntity windowStatus, RoomEntity room) {
         this.name = name;
-        this.windowStatus = windowStatus;
+        this.sensorStatus = windowStatus;
         this.room = room;
     }
 
@@ -50,12 +62,12 @@ public class WindowEntity {
         this.name = name;
     }
 
-    public SensorEntity getWindowStatus() {
-        return windowStatus;
+    public SensorEntity getSensorStatus() {
+        return sensorStatus;
     }
 
-    public void setWindowStatus(SensorEntity windowStatus) {
-        this.windowStatus = windowStatus;
+    public void setSensorStatus(SensorEntity windowStatus) {
+        this.sensorStatus = windowStatus;
     }
 
     public RoomEntity getRoom() {
@@ -64,5 +76,16 @@ public class WindowEntity {
 
     public void setRoom(RoomEntity room) {
         this.room = room;
+    }
+
+    @Override
+    public String toString() {
+        return "WindowEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sensorStatus=" + sensorStatus +
+                ", room=" + room +
+                ", windowStatus=" + windowStatus +
+                '}';
     }
 }

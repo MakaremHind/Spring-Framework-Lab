@@ -30,6 +30,9 @@ public class SensorEntity {
         this.sensorType = sensorType;
     }
 
+    public SensorEntity(WindowStatus windowStatus, String open) {
+    }
+
     public Long getId() { // .
         return id;
     }

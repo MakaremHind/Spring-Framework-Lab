@@ -1,7 +1,8 @@
 package com.emse.spring.automacorp.model;
 
 import jakarta.persistence.*;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "sp_room")  // Defines the table name as "ROOM"
@@ -18,25 +19,31 @@ public class RoomEntity {
     @Column(nullable = false)  // Name must be non-nullable
     private String name;
 
-    @ManyToOne  // Current temperature is measured by a sensor, so a ManyToOne association
-    @JoinColumn(name = "current_temperature_id")  // Foreign key column for sensor
+    @ManyToOne  // Current temperature is measured by a sensor
+    @JoinColumn(name = "current_temperature_id", nullable = false)  // Non-nullable foreign key for the sensor
     private SensorEntity currentTemperature;
 
     @Column(name = "target_temperature")  // Target temperature column
     private Double targetTemperature;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)  // Bidirectional association with windows
-    private List<WindowEntity> windows;
+    private Set<WindowEntity> windows;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)  // Bidirectional association with heaters
+    private Set<HeaterEntity> heaters;
+
+    @ManyToOne  // Many rooms belong to one building
+    @JoinColumn(name = "building_id", nullable = false)  // Non-nullable building foreign key
+    private BuildingEntity building;
 
     // Default constructor
-    public RoomEntity() {
-    }
+    public RoomEntity() {}
 
     // Constructor with non-nullable fields
-    public RoomEntity(Integer floor, String name, Double targetTemperature) {
+    public RoomEntity(String name,SensorEntity currentTemperature, Integer floor) {
         this.floor = floor;
         this.name = name;
-        this.targetTemperature = targetTemperature;
+        this.currentTemperature = currentTemperature;
     }
 
     // Getters and Setters
@@ -80,11 +87,27 @@ public class RoomEntity {
         this.targetTemperature = targetTemperature;
     }
 
-    public List<WindowEntity> getWindows() {
+    public Set<WindowEntity> getWindows() {
         return windows;
     }
 
-    public void setWindows(List<WindowEntity> windows) {
+    public void setWindows(Set<WindowEntity> windows) {
         this.windows = windows;
+    }
+
+    public Set<HeaterEntity> getHeaters() {
+        return heaters;
+    }
+
+    public void setHeaters(Set<HeaterEntity> heaters) {
+        this.heaters = heaters;
+    }
+
+    public BuildingEntity getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(BuildingEntity building) {
+        this.building = building;
     }
 }

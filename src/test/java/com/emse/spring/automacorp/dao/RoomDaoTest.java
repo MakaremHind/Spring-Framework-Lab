@@ -20,6 +20,6 @@ class RoomDaoTest {
 
         room = roomDao.getReferenceById(-9L);
         Assertions.assertThat(room.getName()).isEqualTo("Room2");
-        Assertions.assertThat(room.getCurrentTemperature().getValue()).isEqualTo(21.3);
+        Assertions.assertThat(room.getCurrentTemperature()).isEqualTo(21.3);
     }
 }

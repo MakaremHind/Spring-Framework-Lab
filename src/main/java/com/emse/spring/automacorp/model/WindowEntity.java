@@ -26,6 +26,9 @@ public class WindowEntity {
 
     WindowStatus windowStatus = WindowStatus.CLOSED;
 
+    public WindowEntity(String name, WindowStatus windowStatus, Long aLong) {
+    }
+
     public WindowStatus getWindowStatus() {
         return windowStatus;
     }

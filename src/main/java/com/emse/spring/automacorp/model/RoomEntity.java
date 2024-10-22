@@ -46,6 +46,9 @@ public class RoomEntity {
         this.currentTemperature = currentTemperature;
     }
 
+    public RoomEntity(String name, Double aDouble, int floor) {
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

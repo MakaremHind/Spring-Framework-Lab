@@ -76,4 +76,5 @@ public class FakeEntityBuilder {
         sensorEntity.setValue(value);
         return sensorEntity;
     }
+
 }

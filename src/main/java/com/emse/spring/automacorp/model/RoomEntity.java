@@ -2,6 +2,7 @@ package com.emse.spring.automacorp.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -33,17 +34,19 @@ public class RoomEntity {
     private Set<HeaterEntity> heaters;
 
     @ManyToOne  // Many rooms belong to one building
-    @JoinColumn(name = "building_id", nullable = false)  // Non-nullable building foreign key
+    @JoinColumn(name = "building_id")  // Non-nullable building foreign key
     private BuildingEntity building;
 
     // Default constructor
     public RoomEntity() {}
 
     // Constructor with non-nullable fields
-    public RoomEntity(String name,SensorEntity currentTemperature, Integer floor) {
-        this.floor = floor;
+    public RoomEntity(String name, SensorEntity currentTemperature, Integer floor) {
         this.name = name;
         this.currentTemperature = currentTemperature;
+        this.floor = floor;
+        this.windows = new HashSet<>();  // Ensure windows are initialized
+        this.heaters = new HashSet<>();  // Ensure heaters are initialized
     }
 
     public RoomEntity(String name, Double aDouble, int floor) {
@@ -89,7 +92,6 @@ public class RoomEntity {
     public void setTargetTemperature(Double targetTemperature) {
         this.targetTemperature = targetTemperature;
     }
-
     public Set<WindowEntity> getWindows() {
         return windows;
     }

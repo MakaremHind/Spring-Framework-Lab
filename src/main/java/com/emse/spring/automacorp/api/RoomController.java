@@ -1,12 +1,15 @@
 package com.emse.spring.automacorp.api;
+
 import com.emse.spring.automacorp.dao.RoomDao;
 import com.emse.spring.automacorp.dto.Room;
 import com.emse.spring.automacorp.dto.RoomCommand;
 import com.emse.spring.automacorp.mapper.RoomMapper;
 import com.emse.spring.automacorp.model.RoomEntity;
+import com.emse.spring.automacorp.model.SensorEntity;
 import com.emse.spring.automacorp.model.WindowEntity;
 import com.emse.spring.automacorp.model.WindowStatus;
 import com.emse.spring.automacorp.newdao.HeaterDaoNew;
+import com.emse.spring.automacorp.dao.SensorDao;
 import com.emse.spring.automacorp.newdao.WindowDaoNew;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +27,14 @@ public class RoomController {
     private final RoomDao roomDao;
     private final WindowDaoNew windowDao;
     private final HeaterDaoNew heaterDao;
+    private final SensorDao sensorDao;  // New DAO to handle SensorEntity
 
-    public RoomController(RoomDao roomDao, WindowDaoNew windowDao, HeaterDaoNew heaterDao) {
+    // Constructor (Note: Removed the extra comma)
+    public RoomController(RoomDao roomDao, WindowDaoNew windowDao, HeaterDaoNew heaterDao, SensorDao sensorDao) {
         this.roomDao = roomDao;
         this.windowDao = windowDao;
         this.heaterDao = heaterDao;
+        this.sensorDao = sensorDao;  // Added sensorDao to handle sensor lookups
     }
 
     // Retrieve all rooms (GET)
@@ -51,12 +57,21 @@ public class RoomController {
     // Add or update a room (POST/PUT)
     @PostMapping
     public ResponseEntity<Room> createOrUpdate(@RequestBody RoomCommand roomCommand) {
+        // Retrieve the SensorEntity by sensorId
+        SensorEntity sensorEntity = sensorDao.findById(roomCommand.sensorid())
+                .orElseThrow(() -> new RuntimeException("Sensor not found"));
+
+        // Create a RoomEntity using the sensor and other fields from RoomCommand
         RoomEntity room = new RoomEntity(
                 roomCommand.name(),
-                roomCommand.currentTemperature(),
+                sensorEntity,  // Use SensorEntity for the currentTemperature
                 roomCommand.floor()
         );
+
+        // Set the target temperature
         room.setTargetTemperature(roomCommand.targetTemperature());
+
+        // Save the room entity
         RoomEntity savedRoom = roomDao.save(room);
         return ResponseEntity.ok(RoomMapper.of(savedRoom));
     }

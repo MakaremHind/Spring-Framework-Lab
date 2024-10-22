@@ -24,6 +24,7 @@ dependencies {
 	implementation("com.h2database:h2") // libs to use a H2 databaseg
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
 }
 
 tasks.named('test') {
